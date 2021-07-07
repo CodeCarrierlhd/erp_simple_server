@@ -2,7 +2,7 @@ const LogisticsStatistics = require("../models/logisticsStatistics.model");
 
 // Retrieve all Warehouse from the database.
 exports.findAll = (req, res) => {        
-    LogisticsStatistics.getAll(req.keyValue.keyValue, (err, data) => {
+    LogisticsStatistics.getAll(req.query.keyValue, (err, data) => {
         if (err)
             res.status(500).send({
                 message:
