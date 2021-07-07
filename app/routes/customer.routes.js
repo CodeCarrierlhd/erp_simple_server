@@ -6,6 +6,8 @@ module.exports = app => {
   const afterSale = require("../controllers/afterSale.controller");
   const afterSaleHistory = require("../controllers/afterSaleHistory.controller");
   const partsStatistics = require("../controllers/partsStatistics.controller");
+  const logisticsStatistics = require("../controllers/logisticsStatistics.controller");
+
   app.post("/addProduct", product.create);
 
   app.post("/addWarehouset", warehouse.create);
@@ -17,6 +19,8 @@ module.exports = app => {
   app.post("/addmiddleWareHouse", middleWareHouse.create);
 
   app.get("/productList", product.findAll);
+
+  app.get("/logisticsStatisticsList", logisticsStatistics.findAll);
 
   app.get("/partsStatisticsList", partsStatistics.findAll);
 
