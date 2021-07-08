@@ -94,4 +94,19 @@ exports.update = (req, res) => {
     );
 };
 
+exports.findOne = (req, res) => {
+    Product.findBySku(req.params.sku, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({
+                    message: `Not found warehouse with id ${req.params.sku}.`
+                });
+            } else {
+                res.status(500).send({
+                    message: "Error retrieving warehouse with id " + req.params.sku
+                });
+            }
+        } else res.send(data);
+    });
+};
 

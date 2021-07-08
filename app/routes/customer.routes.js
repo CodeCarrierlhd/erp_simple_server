@@ -33,6 +33,8 @@ module.exports = app => {
   app.get("/allWarehouseList", warehouse.findAllWarehouse);
 
   app.get("/warehouse/:warehouseId", warehouse.findOne);
+  
+  app.get("/findProductBySku/:sku", product.findOne);
 
   app.get("/findWarehouseByType", warehouse.findOneByType);
 

@@ -82,4 +82,23 @@ Product.updateById = (id, product, result) => {
     );
 };
 
+Product.findBySku = (sku, result) => {
+    sql.query(`SELECT * FROM my_goods WHERE statu=1 and mpn='${sku}'`, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+
+        if (res.length) {
+            result(null, { code: 200, data: res });
+            return;
+        }
+
+        // not found warehouse with the id
+        result({ kind: "not_found" }, null);
+    });
+};
+
+
 module.exports = Product;
