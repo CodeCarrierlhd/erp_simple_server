@@ -45,6 +45,28 @@ Product.getAll = result => {
         result(null, { code: 200, data: res });
     });
 };
+Product.getWarehouseAllProduct = (sku, result) => {
+    let mySql = sku == undefined ? 
+    `SELECT sum(a.productNumber) productNumber,c.mainImg,c.productName,c.mpn from warehouseconcatproduct a 
+     JOIN my_warehouse b ON a.warehouseId=b.id 
+     JOIN my_goods c ON a.productId=c.id 
+    WHERE b.statu='1' AND c.statu='1' 
+    group by c.mainImg,c.productName,c.mpn` 
+    :
+    `SELECT sum(a.productNumber) productNumber,c.mainImg,c.productName,c.mpn from warehouseconcatproduct a 
+     JOIN my_warehouse b ON a.warehouseId=b.id 
+     JOIN my_goods c ON a.productId=c.id 
+    WHERE b.statu='1' AND c.statu='1' and c.mpn='${sku}' GROUP BY c.mpn`
+    
+    sql.query(mySql, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+        result(null, { code: 200, data: res });
+    });
+};
 
 Product.remove = (ids, result) => {
     sql.query(`UPDATE my_goods set statu=0 WHERE id IN (${ids})`, (err, res) => {
@@ -64,7 +86,7 @@ Product.remove = (ids, result) => {
 Product.updateById = (id, product, result) => {
     sql.query(
         "UPDATE my_goods SET mpn = ?, soldSeparately = ?, productName = ?,mainColor = ?, mainMaterial = ?, productSize = ?,manualBook = ?, nowPrice = ?, showPrice = ?,productTypeId = ?, length = ?, width = ?,height = ?, weight = ?, mainImg = ?,desProduct = ?, materailImage = ?, manualImage = ?,fileUpload=? WHERE id = ?",
-        [product.mpn, product.soldSeparately, product.productName, product.mainColor, product.mainMaterial, product.productSize, product.manualBook, product.nowPrice, product.showPrice, product.productTypeId, product.length, product.width, product.height, product.weight, product.mainImg, product.desProduct, product.materailImage, product.manualImage,product.fileUpload, id],
+        [product.mpn, product.soldSeparately, product.productName, product.mainColor, product.mainMaterial, product.productSize, product.manualBook, product.nowPrice, product.showPrice, product.productTypeId, product.length, product.width, product.height, product.weight, product.mainImg, product.desProduct, product.materailImage, product.manualImage, product.fileUpload, id],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);

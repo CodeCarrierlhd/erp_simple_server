@@ -20,6 +20,8 @@ module.exports = app => {
 
   app.get("/productList", product.findAll);
 
+  app.get("/productWarehouseList", product.findWarehouseAllProduct);
+
   app.get("/logisticsStatisticsList", logisticsStatistics.findAll);
 
   app.get("/partsStatisticsList", partsStatistics.findAll);

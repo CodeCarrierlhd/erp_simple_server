@@ -50,6 +50,17 @@ exports.findAll = (req, res) => {
     });
 };
 
+exports.findWarehouseAllProduct = (req, res) => {
+    Product.getWarehouseAllProduct(req.query.value,(err, data) => {
+        if (err)
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while retrieving Warehouse."
+            });
+        else res.send(data);
+    });
+};
+
 exports.delete = (req, res) => {
     console.log(req.query.ids);
 

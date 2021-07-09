@@ -29,8 +29,9 @@ AfterSale.create = (newAfterSale, result) => {
     });
 };
 
-AfterSale.getAll = result => {
-    sql.query("SELECT * FROM my_aftersale", (err, res) => {
+AfterSale.getAll = (sku, result) => {
+    let mySql = sku == undefined ?`SELECT * FROM my_aftersale`:`SELECT * FROM my_aftersale where sku='${sku}'`
+    sql.query(mySql, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);

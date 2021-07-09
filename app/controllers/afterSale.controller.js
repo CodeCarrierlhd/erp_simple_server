@@ -33,8 +33,8 @@ exports.create = (req, res) => {
     });
 };
 
-exports.findAll = (req, res) => {
-    AfterSale.getAll((err, data) => {
+exports.findAll = (req, res) => {    
+    AfterSale.getAll(req.query.value,(err, data) => {
         if (err)
             res.status(500).send({
                 message:
