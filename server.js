@@ -3,6 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const multer = require('multer')
 const bodyParser = require("body-parser");
+const { log } = require("console");
 const app = express();
 
 var storage = multer.diskStorage({
@@ -14,7 +15,11 @@ var storage = multer.diskStorage({
   filename: function (req, file, cb) {
     //获取格式
     var fileFormat = (file.originalname).split(".");
-    cb(null, file.fieldname + '-' + Date.now() + "." + fileFormat[fileFormat.length - 1]);
+    if (file.fieldname == 'img') {
+      cb(null, file.fieldname + '-' + Date.now() + "." + fileFormat[fileFormat.length - 1]);
+    }else{
+      cb(null, req.body.filename +"." + fileFormat[fileFormat.length - 1]);
+    }
   }
 });
 //添加配置文件到muler对象。
@@ -60,8 +65,7 @@ app.post('/uploadImg', upload.single('image'), function (req, res, next) {
 
 // 单图上传
 app.post('/uploadFile', upload.single('file'), function (req, res, next) {
-  var file = req.file;
-  // console.log(file);
+  var file = req.file;  
   // console.log('文件类型：%s', file.mimetype);
   // console.log('原始文件名：%s', file.originalname);
   // console.log('文件大小：%s', file.size);

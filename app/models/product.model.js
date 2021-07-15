@@ -47,13 +47,13 @@ Product.getAll = result => {
 };
 Product.getWarehouseAllProduct = (sku, result) => {
     let mySql = sku == undefined ? 
-    `SELECT sum(a.productNumber) productNumber,c.mainImg,c.productName,c.mpn from warehouseconcatproduct a 
+    `SELECT sum(a.productNumber) productNumber,c.mainImg,c.productName,c.mpn,c.fileUpload from warehouseconcatproduct a 
      JOIN my_warehouse b ON a.warehouseId=b.id 
      JOIN my_goods c ON a.productId=c.id 
     WHERE b.statu='1' AND c.statu='1' 
     group by c.mainImg,c.productName,c.mpn` 
     :
-    `SELECT sum(a.productNumber) productNumber,c.mainImg,c.productName,c.mpn from warehouseconcatproduct a 
+    `SELECT sum(a.productNumber) productNumber,c.mainImg,c.productName,c.mpn,c.fileUpload from warehouseconcatproduct a 
      JOIN my_warehouse b ON a.warehouseId=b.id 
      JOIN my_goods c ON a.productId=c.id 
     WHERE b.statu='1' AND c.statu='1' and c.mpn='${sku}' GROUP BY c.mpn`
