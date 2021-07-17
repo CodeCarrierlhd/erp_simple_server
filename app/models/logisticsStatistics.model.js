@@ -11,7 +11,7 @@ const LogisticsStatistics = function (logisticsStatistics) {
 };
 
 LogisticsStatistics.getAll = (keyValue, result) => {
-    let mySql = keyValue == undefined ? `SELECT * FROM my_tracking` : `SELECT * FROM my_tracking a WHERE 1=1 and (a.trackingNumber ='${keyValue}' or a.orderNumber ='${keyValue}' or a.sku ='${keyValue}')`
+    let mySql = keyValue == undefined ? `SELECT * FROM my_tracking` : `SELECT * FROM my_tracking a WHERE 1=1 and (a.trackingNumber ='${keyValue}' or a.orderNumber ='${keyValue}' or a.sku ='${keyValue}' or a.status ='${keyValue}' or a.warehouseType ='${keyValue}')`
     sql.query(mySql, (err, res) => {
         if (err) {
             console.log("error: ", err);

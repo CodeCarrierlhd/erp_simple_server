@@ -7,6 +7,7 @@ const Warehouse = function (warehouse) {
     this.sealPart = warehouse.sealPart;
     this.deliveryDate = warehouse.deliveryDate;
     this.arrivalTime = warehouse.arrivalTime;
+    this.relArrivedTime = warehouse.relArrivedTime;
     this.remark = warehouse.remark;
     this.inWarehouse = warehouse.inWarehouse;
     this.warehouseType = warehouse.warehouseType;
@@ -122,8 +123,8 @@ Warehouse.remove = (ids, result) => {
 Warehouse.updateById = (id, newWarehouse, result) => {
 
     sql.query(
-        "UPDATE my_warehouse SET cabinNumber = ?, containerNumber = ?, wareHouseModel = ?,sealPart = ?, deliveryDate = ?, remark = ?,arrivalTime = ?,warehouseType=?, inWarehouse = ?,fileUpload=? WHERE id = ?",
-        [newWarehouse.cabinNumber, newWarehouse.containerNumber, newWarehouse.wareHouseModel, newWarehouse.sealPart, newWarehouse.deliveryDate, newWarehouse.remark, newWarehouse.arrivalTime, newWarehouse.warehouseType, newWarehouse.inWarehouse, newWarehouse.fileUpload, id],
+        "UPDATE my_warehouse SET cabinNumber = ?, containerNumber = ?, wareHouseModel = ?,sealPart = ?, deliveryDate = ?, remark = ?,relArrivedTime = ?,arrivalTime = ?,warehouseType=?, inWarehouse = ?,fileUpload=? WHERE id = ?",
+        [newWarehouse.cabinNumber, newWarehouse.containerNumber, newWarehouse.wareHouseModel, newWarehouse.sealPart, newWarehouse.deliveryDate, newWarehouse.remark, newWarehouse.arrivalTime,newWarehouse.relArrivedTime, newWarehouse.warehouseType, newWarehouse.inWarehouse, newWarehouse.fileUpload, id],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
