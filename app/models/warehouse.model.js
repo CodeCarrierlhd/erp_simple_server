@@ -57,7 +57,7 @@ Warehouse.findById = (warehouseId, result) => {
 };
 
 Warehouse.findBySku = (sku, result) => {
-    sql.query(`SELECT * FROM my_warehouse WHERE id in (SELECT warehouseId FROM warehouseconcatproduct w,my_goods b WHERE w.productId=b.id AND b.mpn='${sku}')`, (err, res) => {
+    sql.query(`SELECT * FROM my_warehouse WHERE id in (SELECT warehouseId FROM warehouseconcatproduct w,my_goods b WHERE w.productId=b.id AND b.mpn='${sku}') and statu=1`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);

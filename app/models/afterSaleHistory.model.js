@@ -13,7 +13,7 @@ const AfterSaleHistory = function (afterSaleHistory) {
 
 
 AfterSaleHistory.create = (newAfterSaleHistory, result) => {
-    sql.query("INSERT INTO my_saleHistory SET ?", newAfterSaleHistory, (err, res) => {
+    sql.query("INSERT INTO my_salehistory SET ?", newAfterSaleHistory, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -23,7 +23,7 @@ AfterSaleHistory.create = (newAfterSaleHistory, result) => {
     });
 };
 AfterSaleHistory.findById = (afterSaleId, result) => {
-    sql.query(`SELECT * FROM my_saleHistory WHERE afterSaleId = ${afterSaleId}`, (err, res) => {
+    sql.query(`SELECT * FROM my_salehistory WHERE afterSaleId = '${afterSaleId}'`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
