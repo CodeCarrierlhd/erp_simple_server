@@ -29,15 +29,22 @@ AfterSale.create = (newAfterSale, result) => {
     });
 };
 
-AfterSale.getAll = (sku, result) => {
-    let mySql = sku == undefined ?`SELECT * FROM my_aftersale`:`SELECT * FROM my_aftersale where sku='${sku}'`
-    sql.query(mySql, (err, res) => {
+AfterSale.getAll = (sku,pageOption, result) => {
+    let mySql = sku == undefined ?`select * from my_aftersale where  id >= (select id from my_aftersale order by id limit ${pageOption.pageNo}, 1) ORDER BY saleDate DESC limit ${pageOption.pageSize}`:`select * from my_aftersale where sku='${sku}'`
+    sql.query(mySql, (err, rows) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);
             return;
         }
-        result(null, { code: 200, data: res });
+        sql.query(`select COUNT(id) as total from my_aftersale`, (err, row1) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
+            result(null, { code: 200, data: {rows,total:row1[0]['total']} });
+        });
     });
 };
 

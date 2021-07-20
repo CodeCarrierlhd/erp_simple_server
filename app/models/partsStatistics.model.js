@@ -24,7 +24,7 @@ PartsStatistics.create = (newPartsStatistics, result) => {
     });
 };
 PartsStatistics.getAll = result => {
-    sql.query("SELECT * FROM my_components", (err, res) => {
+    sql.query("SELECT * FROM my_components ORDER BY saleDate DESC", (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);

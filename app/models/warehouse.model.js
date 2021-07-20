@@ -26,14 +26,21 @@ Warehouse.getAllWarehouse = (result) => {
     });
 };
 
-Warehouse.getAll = (inWarehouse, result) => {
-    sql.query(`SELECT * FROM my_warehouse WHERE statu=1 and inWarehouse=${inWarehouse}`, (err, res) => {
+Warehouse.getAll = (pageOption,inWarehouse, result) => {
+    sql.query(`select * from my_warehouse where  statu='1' AND inWarehouse=${inWarehouse} and id >= (select id from my_warehouse order by id limit ${pageOption.pageNo}, 1) limit ${pageOption.pageSize} `, (err, rows) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);
             return;
         }
-        result(null, { code: 200, data: res });
+        sql.query(`select COUNT(id) as total from my_warehouse where  statu='1'`, (err, row1) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
+            result(null, { code: 200, data: {rows,total:row1[0]['total']} });
+        });
     });
 };
 Warehouse.findById = (warehouseId, result) => {

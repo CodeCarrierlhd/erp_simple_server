@@ -40,7 +40,7 @@ exports.create = (req, res) => {
     });
 };
 exports.findAll = (req, res) => {
-    Product.getAll((err, data) => {
+    Product.getAll(req.query,(err, data) => {
         if (err)
             res.status(500).send({
                 message:

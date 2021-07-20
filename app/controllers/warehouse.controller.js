@@ -2,7 +2,7 @@ const Warehouse = require("../models/warehouse.model");
 
 // Retrieve all Warehouse from the database.
 exports.findAll = (req, res) => {
-    Warehouse.getAll(req.params.inWarehouse, (err, data) => {
+    Warehouse.getAll(req.query,req.params.inWarehouse, (err, data) => {
         if (err)
             res.status(500).send({
                 message:

@@ -34,7 +34,7 @@ exports.create = (req, res) => {
 };
 
 exports.findAll = (req, res) => {    
-    AfterSale.getAll(req.query.value,(err, data) => {
+    AfterSale.getAll(req.query.value,JSON.parse(req.query.pageOption),(err, data) => {
         if (err)
             res.status(500).send({
                 message:

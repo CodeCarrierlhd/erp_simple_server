@@ -35,14 +35,22 @@ Product.create = (newProduct, result) => {
         result(null, { code: 200, msg: '产品新增成功' });
     });
 };
-Product.getAll = result => {
-    sql.query("SELECT * FROM my_goods WHERE statu=1", (err, res) => {
+Product.getAll = (pageOption,result) => {
+    sql.query(`select * from my_goods where  statu='1' AND id >= (select id from my_goods order by id limit ${pageOption.pageNo}, 1) limit ${pageOption.pageSize} `, (err, rows) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);
             return;
         }
-        result(null, { code: 200, data: res });
+        sql.query(`select COUNT(id) as total from my_goods where  statu='1'`, (err, row1) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
+            result(null, { code: 200, data: {rows,total:row1[0]['total']} });
+        });
+        // result(null, { code: 200, data: res });
     });
 };
 Product.getWarehouseAllProduct = (sku, result) => {
