@@ -40,7 +40,7 @@ exports.findOne = (req, res) => {
 };
 
 exports.findOneBySku = (req, res) => {
-    Warehouse.findBySku(req.params.sku, (err, data) => {
+    Warehouse.findBySku(req.params.sku,req.query, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.status(404).send({

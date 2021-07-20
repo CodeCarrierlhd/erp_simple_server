@@ -106,7 +106,7 @@ exports.update = (req, res) => {
 };
 
 exports.findOne = (req, res) => {
-    Product.findBySku(req.params.sku, (err, data) => {
+    Product.findBySku(req.params.sku,req.query, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.status(404).send({

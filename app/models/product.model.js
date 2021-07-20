@@ -112,21 +112,15 @@ Product.updateById = (id, product, result) => {
     );
 };
 
-Product.findBySku = (sku, result) => {
-    sql.query(`SELECT * FROM my_goods WHERE statu=1 and mpn='${sku}'`, (err, res) => {
+Product.findBySku = (sku,pageOption, result) => {
+    let mySql=`SELECT * FROM my_goods WHERE statu=1 and mpn LIKE '%${sku}%' and id >= (select id from my_goods order by id limit ${pageOption.pageNo}, 1) limit ${pageOption.pageSize}`
+    sql.query(mySql, (err, rows) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
             return;
         }
-
-        if (res.length) {
-            result(null, { code: 200, data: res });
-            return;
-        }
-
-        // not found warehouse with the id
-        result({ kind: "not_found" }, null);
+        result(null, { code: 200, data: {rows,total:rows.length} });
     });
 };
 

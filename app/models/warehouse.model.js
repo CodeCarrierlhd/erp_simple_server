@@ -63,21 +63,14 @@ Warehouse.findById = (warehouseId, result) => {
     });
 };
 
-Warehouse.findBySku = (sku, result) => {
-    sql.query(`SELECT * FROM my_warehouse WHERE id in (SELECT warehouseId FROM warehouseconcatproduct w,my_goods b WHERE w.productId=b.id AND b.mpn='${sku}') and statu=1`, (err, res) => {
+Warehouse.findBySku = (sku,pageOption, result) => {
+    sql.query(`SELECT * FROM my_warehouse WHERE id in (SELECT warehouseId FROM warehouseconcatproduct w,my_goods b WHERE w.productId=b.id AND b.mpn LIKE '%${sku}%') and statu=1 and id >= (select id from my_goods order by id limit ${pageOption.pageNo}, 1) limit ${pageOption.pageSize}`, (err, rows) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
             return;
         }
-
-        if (res.length) {
-            result(null, { code: 200, data: res });
-            return;
-        }
-
-        // not found warehouse with the id
-        result({ kind: "not_found" }, null);
+        result(null, { code: 200, data: {rows,total:rows.length} });
     });
 };
 
