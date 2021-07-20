@@ -53,7 +53,7 @@ exports.update = (req, res) => {
     );
 };
 exports.findAll = (req, res) => {
-    PartsStatistics.getAll((err, data) => {
+    PartsStatistics.getAll(req.query,(err, data) => {
         if (err)
             res.status(500).send({
                 message:

@@ -23,14 +23,21 @@ PartsStatistics.create = (newPartsStatistics, result) => {
         result(null, { code: 200, msg: '数据新增成功' });
     });
 };
-PartsStatistics.getAll = result => {
-    sql.query("SELECT * FROM my_components ORDER BY saleDate DESC", (err, res) => {
+PartsStatistics.getAll = (pageOption,result) => {
+    sql.query(`select * from my_components where id >= (select id from my_components order by id limit ${pageOption.pageNo}, 1) ORDER BY saleDate DESC limit ${pageOption.pageSize}`, (err, rows) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);
             return;
         }
-        result(null, { code: 200, data: res });
+        sql.query(`select COUNT(id) as total from my_components`, (err, row1) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
+            result(null, { code: 200, data: {rows,total:row1[0]['total']} });
+        });
     });
 };
 
