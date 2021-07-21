@@ -124,7 +124,7 @@ Warehouse.updateById = (id, newWarehouse, result) => {
 
     sql.query(
         "UPDATE my_warehouse SET cabinNumber = ?, containerNumber = ?, wareHouseModel = ?,sealPart = ?, deliveryDate = ?, remark = ?,relArrivedTime = ?,arrivalTime = ?,warehouseType=?, inWarehouse = ?,fileUpload=? WHERE id = ?",
-        [newWarehouse.cabinNumber, newWarehouse.containerNumber, newWarehouse.wareHouseModel, newWarehouse.sealPart, newWarehouse.deliveryDate, newWarehouse.remark, newWarehouse.arrivalTime,newWarehouse.relArrivedTime, newWarehouse.warehouseType, newWarehouse.inWarehouse, newWarehouse.fileUpload, id],
+        [newWarehouse.cabinNumber, newWarehouse.containerNumber, newWarehouse.wareHouseModel, newWarehouse.sealPart, newWarehouse.deliveryDate, newWarehouse.remark, newWarehouse.relArrivedTime,newWarehouse.arrivalTime, newWarehouse.warehouseType, newWarehouse.inWarehouse, newWarehouse.fileUpload, id],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
