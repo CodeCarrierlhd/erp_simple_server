@@ -44,7 +44,7 @@ PartsStatistics.getAll = (pageOption,result) => {
 
 PartsStatistics.updateById = (id, partsStatistics, result) => {
     sql.query(
-        "UPDATE my_components SET account = ?, saleDate = ?, orderNumber = ?,sku = ?, wayType = ?, wayPart = ?,remark = ?WHERE id = ?",
+        "UPDATE my_components SET account = ?, saleDate = ?, orderNumber = ?,sku = ?, wayType = ?, wayPart = ?,remark = ? WHERE id = ?",
         [partsStatistics.account, partsStatistics.saleDate, partsStatistics.orderNumber, partsStatistics.sku, partsStatistics.wayType, partsStatistics.wayPart, partsStatistics.remark, id],
         (err, res) => {
             if (err) {
