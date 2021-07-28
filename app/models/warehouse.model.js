@@ -8,6 +8,7 @@ const Warehouse = function (warehouse) {
     this.deliveryDate = warehouse.deliveryDate;
     this.arrivalTime = warehouse.arrivalTime;
     this.relArrivedTime = warehouse.relArrivedTime;
+    this.deliveryStartDate = warehouse.deliveryStartDate;
     this.remark = warehouse.remark;
     this.inWarehouse = warehouse.inWarehouse;
     this.warehouseType = warehouse.warehouseType;
@@ -27,7 +28,7 @@ Warehouse.getAllWarehouse = (result) => {
 };
 
 Warehouse.getAll = (pageOption,inWarehouse, result) => {
-    sql.query(`select * from my_warehouse where  statu='1' AND inWarehouse=${inWarehouse} and id >= (select id from my_warehouse order by id limit ${pageOption.pageNo}, 1) limit ${pageOption.pageSize} `, (err, rows) => {
+    sql.query(`select * from my_warehouse where  statu='1' AND inWarehouse=${inWarehouse} and id >= (select id from my_warehouse order by id limit ${(pageOption.pageNo-1)*pageOption.pageSize}, 1) limit ${pageOption.pageSize} `, (err, rows) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);
@@ -64,7 +65,7 @@ Warehouse.findById = (warehouseId, result) => {
 };
 
 Warehouse.findBySku = (sku,pageOption, result) => {
-    sql.query(`SELECT * FROM my_warehouse WHERE id in (SELECT warehouseId FROM warehouseconcatproduct w,my_goods b WHERE w.productId=b.id AND b.mpn LIKE '%${sku}%') and statu=1 and id >= (select id from my_goods order by id limit ${pageOption.pageNo}, 1) limit ${pageOption.pageSize}`, (err, rows) => {
+    sql.query(`SELECT * FROM my_warehouse WHERE id in (SELECT warehouseId FROM warehouseconcatproduct w,my_goods b WHERE w.productId=b.id AND b.mpn LIKE '%${sku}%') and statu=1 and id >= (select id from my_goods order by id limit ${(pageOption.pageNo-1)*pageOption.pageSize}, 1) limit ${pageOption.pageSize}`, (err, rows) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -123,8 +124,8 @@ Warehouse.remove = (ids, result) => {
 Warehouse.updateById = (id, newWarehouse, result) => {
 
     sql.query(
-        "UPDATE my_warehouse SET cabinNumber = ?, containerNumber = ?, wareHouseModel = ?,sealPart = ?, deliveryDate = ?, remark = ?,relArrivedTime = ?,arrivalTime = ?,warehouseType=?, inWarehouse = ?,fileUpload=? WHERE id = ?",
-        [newWarehouse.cabinNumber, newWarehouse.containerNumber, newWarehouse.wareHouseModel, newWarehouse.sealPart, newWarehouse.deliveryDate, newWarehouse.remark, newWarehouse.relArrivedTime,newWarehouse.arrivalTime, newWarehouse.warehouseType, newWarehouse.inWarehouse, newWarehouse.fileUpload, id],
+        "UPDATE my_warehouse SET cabinNumber = ?, containerNumber = ?, wareHouseModel = ?,sealPart = ?, deliveryDate = ?, remark = ?,relArrivedTime = ?,deliveryStartDate=?,arrivalTime = ?,warehouseType=?, inWarehouse = ?,fileUpload=? WHERE id = ?",
+        [newWarehouse.cabinNumber, newWarehouse.containerNumber, newWarehouse.wareHouseModel, newWarehouse.sealPart, newWarehouse.deliveryDate, newWarehouse.remark, newWarehouse.relArrivedTime,newWarehouse.deliveryStartDate,newWarehouse.arrivalTime, newWarehouse.warehouseType, newWarehouse.inWarehouse, newWarehouse.fileUpload, id],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);

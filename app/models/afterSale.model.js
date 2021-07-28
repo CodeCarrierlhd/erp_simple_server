@@ -30,7 +30,7 @@ AfterSale.create = (newAfterSale, result) => {
 };
 
 AfterSale.getAll = (sku,pageOption, result) => {
-    let mySql = sku == undefined ?`select * from my_aftersale where  id >= (select id from my_aftersale order by id limit ${pageOption.pageNo}, 1) ORDER BY saleDate DESC limit ${pageOption.pageSize}`:`select * from my_aftersale where sku='${sku}'`
+    let mySql = sku == undefined ?`select * from my_aftersale where  id >= (select id from my_aftersale order by id limit ${(pageOption.pageNo-1)*pageOption.pageSize}, 1) ORDER BY saleDate DESC limit ${pageOption.pageSize}`:`select * from my_aftersale where sku='${sku}'`
     sql.query(mySql, (err, rows) => {
         if (err) {
             console.log("error: ", err);

@@ -24,7 +24,7 @@ PartsStatistics.create = (newPartsStatistics, result) => {
     });
 };
 PartsStatistics.getAll = (pageOption,result) => {
-    sql.query(`select * from my_components where id >= (select id from my_components order by id limit ${pageOption.pageNo}, 1) ORDER BY saleDate DESC limit ${pageOption.pageSize}`, (err, rows) => {
+    sql.query(`select * from my_components where id >= (select id from my_components order by id limit ${(pageOption.pageNo-1)*pageOption.pageSize}, 1) ORDER BY saleDate DESC limit ${pageOption.pageSize}`, (err, rows) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);

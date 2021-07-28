@@ -36,7 +36,8 @@ Product.create = (newProduct, result) => {
     });
 };
 Product.getAll = (pageOption,result) => {
-    sql.query(`select * from my_goods where  statu='1' AND id >= (select id from my_goods order by id limit ${pageOption.pageNo}, 1) limit ${pageOption.pageSize} `, (err, rows) => {
+    let sqlAll=`select * from my_goods where  statu='1' AND id >= (select id from my_goods order by id limit ${(pageOption.pageNo-1)*pageOption.pageSize}, 1) limit ${pageOption.pageSize} `    
+    sql.query(sqlAll, (err, rows) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);
@@ -113,7 +114,7 @@ Product.updateById = (id, product, result) => {
 };
 
 Product.findBySku = (sku,pageOption, result) => {
-    let mySql=`SELECT * FROM my_goods WHERE statu=1 and mpn LIKE '%${sku}%' and id >= (select id from my_goods order by id limit ${pageOption.pageNo}, 1) limit ${pageOption.pageSize}`
+    let mySql=`SELECT * FROM my_goods WHERE statu=1 and mpn LIKE '%${sku}%' and id >= (select id from my_goods order by id limit ${(pageOption.pageNo-1)*pageOption.pageSize}, 1) limit ${pageOption.pageSize}`
     sql.query(mySql, (err, rows) => {
         if (err) {
             console.log("error: ", err);

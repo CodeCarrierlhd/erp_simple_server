@@ -87,6 +87,7 @@ exports.create = (req, res) => {
         remark: req.body.remark,
         arrivalTime: req.body.arrivalTime,
         relArrivedTime: req.body.relArrivedTime,
+        deliveryStartDate: req.body.deliveryStartDate,
         inWarehouse: req.body.inWarehouse,
         warehouseType: req.body.warehouseType,
         fileUpload: req.body.fileUpload,
